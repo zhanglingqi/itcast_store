@@ -15,7 +15,82 @@
 				<el-button type="success" plain>成功按钮</el-button>
 			</el-col>
 		</el-row>
-	</el-card>
+	<!-- 表格 -->
+    <!-- border 加边框
+      stripe 斑马纹
+      序号列
+    -->
+    <el-table
+      border
+      stripe
+      :data="data"
+      style="width: 100%">
+      <!-- 序号 -->
+      <el-table-column
+        type="index"
+        width="50">
+      </el-table-column>
+      <el-table-column
+        prop="username"
+        label="姓名"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="email"
+        label="邮箱"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="mobile"
+        label="电话"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        label="时间"
+        width="180">
+        <template slot-scope="scope">
+          {{ scope.row.create_time | fmtDate('YYYY-MM-DD') }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="用户状态"
+        width="80">
+        <template slot-scope="scope">
+          <!-- {{ scope.row.mg_state }} -->
+          <el-switch
+            v-model="scope.row.mg_state"
+            active-color="#13ce66"
+            inactive-color="#ff4949">
+          </el-switch>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="操作">
+        <template slot-scope="scope">
+          <!-- scope.row 是当前行绑定的数据对象 -->
+          <!-- {{ scope.$index }} -->
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            size="mini"
+            plain>
+          </el-button>
+          <el-button
+            type="danger"
+            icon="el-icon-delete"
+            size="mini"
+            plain>
+          </el-button>
+          <el-button
+            type="success"
+            icon="el-icon-check"
+            size="mini"
+            plain>
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </el-card>
 </template>
 
 <script>
