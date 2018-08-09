@@ -94,9 +94,33 @@
 </template>
 
 <script>
+	import axios from 'axios';
 	export default {
-
-	}
+  data() {
+    return {
+      data: []
+    }
+  },
+ 
+ created() {
+    this.loadData();
+  },
+ methods:{
+ 	async loadData() {
+ 		var token = sessionStorage.getItem('token');
+ 		axios.defaults.headers.common['Authorization'] = token;
+ 		
+ 		var response = await axios.get('http://localhost:8888/api/private/v1/users?pagenum=1&pagesize=10');
+ 		
+ 		 var { meta: { status, msg } } = response.data;
+      if (status === 200) {
+        this.data = response.data.data.users;
+      } else {
+        this.$message.error(msg);
+      }
+ 	}
+ }
+ }
 </script>
 
 <style>
