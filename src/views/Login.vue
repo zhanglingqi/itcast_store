@@ -1,10 +1,6 @@
 <template>
 	<div class="login-wrap">
-		<el-form 
-			class="login-form" 
-			label-position="top" 
-			label-width="80px" 
-			:model="formData">
+		<el-form class="login-form" label-position="top" label-width="80px" :model="formData">
 			<h2>用户登录</h2>
 			<el-form-item label="用户名">
 				<el-input v-model="formData.username"></el-input>
@@ -32,7 +28,14 @@
 	}
 </script>
 
-<style>
+<style scoped>
+	/*
+	  scoped 是html5中提供的属性
+
+  会给当前页面所有的标签，添加一个data-v-xxx的一个属性作为标示
+  当前页面的样式只为当前页面的元素服务
+	 * */
+	
 	.login-wrap {
 		background-color: #324152;
 		height: 100%;
