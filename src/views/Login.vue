@@ -6,16 +6,17 @@
 				<el-input v-model="formData.username"></el-input>
 			</el-form-item>
 			<el-form-item label="密码">
-				<el-input v-model="formData.password"></el-input>
+				<el-input type="password" v-model="formData.password"></el-input>
 			</el-form-item>
 			<el-form-item>
-				<el-button class="btn" type="primary">登录</el-button>
+				<el-button @click="handleLogin" class="btn" type="primary">登录</el-button>
 			</el-form-item>
 		</el-form>
 	</div>
 </template>
 
 <script>
+	import axios from 'axios';
 	export default {
 		data() {
 			return {
@@ -23,6 +24,30 @@
 					username: '',
 					password: ''
 				}
+			}
+		},
+		methods: {
+			handleLogin() {
+				axios
+					.post(`http://localhost:8888/api/private/v1/login`, this.formData)
+					.then((response) => {
+						var status = response.data.meta.status;
+						var msg = response.data.meta.msg;
+
+						if(status === 200) {
+							//登录成功
+							this.$message.success(msg);
+							// 记录token
+							var token = response.data.data.token;
+							sessionStorage.setItem('token', token);
+							//跳转到后台
+						} else {
+							 this.$message.error(msg);
+						}
+					})
+					.catch ((err) => {
+						console.log(err)
+					})
 			}
 		}
 	}
