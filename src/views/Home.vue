@@ -13,7 +13,7 @@
 				</el-col>
 				<el-col :span="1">
 					<div class="logout">
-						<a href="#">退出</a>
+						<a href="#" @click.prevent="handleLogout">退出</a>
 					</div>
 				</el-col>
 			</el-row>
@@ -99,6 +99,17 @@
 				this.$message.warning('请先登录');
 				// 没有token，跳转到登录页面
 				this.$router.push('/login');
+			}
+		},
+		methods:{
+			//退出
+			handleLogout() {
+				//提示退出成功
+				 this.$message.success('退出成功');
+				 //清除token
+				 sessionStorage.clear();
+				 //跳转到登录页面
+				 this.$router.push('/login')
 			}
 		}
 	};
