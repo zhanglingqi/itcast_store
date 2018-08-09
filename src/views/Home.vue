@@ -85,7 +85,11 @@
 					</el-submenu>
 				</el-menu>
 			</el-aside>
-			<el-main class="main">Main</el-main>
+			<!--<el-main class="main">Main</el-main>-->
+			<!--表格-->
+			<el-main class="main">
+				<router-view></router-view>
+			</el-main>
 		</el-container>
 	</el-container>
 </template>
@@ -101,15 +105,15 @@
 				this.$router.push('/login');
 			}
 		},
-		methods:{
+		methods: {
 			//退出
 			handleLogout() {
 				//提示退出成功
-				 this.$message.success('退出成功');
-				 //清除token
-				 sessionStorage.clear();
-				 //跳转到登录页面
-				 this.$router.push('/login')
+				this.$message.success('退出成功');
+				//清除token
+				sessionStorage.clear();
+				//跳转到登录页面
+				this.$router.push('/login')
 			}
 		}
 	};

@@ -46,6 +46,7 @@
 							sessionStorage.setItem('token', token);
 							//跳转到后台
 							this.$router.push('/');
+//							this.$router.push({name:'Home'});
 						} else {
 							this.$message.error(msg);
 						}
