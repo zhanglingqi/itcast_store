@@ -41,6 +41,7 @@
 							var token = response.data.data.token;
 							sessionStorage.setItem('token', token);
 							//跳转到后台
+							this.$router.push('/');
 						} else {
 							 this.$message.error(msg);
 						}

@@ -89,43 +89,52 @@
 		</el-container>
 	</el-container>
 </template>
-	<script>
-		export default {
+<script>
+	export default {
+		beforeCreate() {
+			//判断是否登录
+			var token = sessionStorage.getItem('token');
+			if(!token) {
+				// 提示
+				this.$message.warning('请先登录');
+				// 没有token，跳转到登录页面
+				this.$router.push('/login');
+			}
+		}
+	};
+</script>
 
-		};
-	</script>
-
-	<style>
-		.container {
-			height: 100%;
-		}
-		
-		.header {
-			background-color: #b3c0d1;
-			padding: 0;
-		}
-		
-		.header .title {
-			text-align: center;
-			color: white;
-			font-size: 24px;
-			line-height: 60px;
-		}
-		
-		.header .logout {
-			line-height: 60px;
-		}
-		
-		.header .logout a {
-			color: orange;
-			text-decoration: none;
-		}
-		
-		.aside {
-			background-color: #d3dce6;
-		}
-		
-		.main {
-			background-color: #e9eef3;
-		}
-	</style>
+<style>
+	.container {
+		height: 100%;
+	}
+	
+	.header {
+		background-color: #b3c0d1;
+		padding: 0;
+	}
+	
+	.header .title {
+		text-align: center;
+		color: white;
+		font-size: 24px;
+		line-height: 60px;
+	}
+	
+	.header .logout {
+		line-height: 60px;
+	}
+	
+	.header .logout a {
+		color: orange;
+		text-decoration: none;
+	}
+	
+	.aside {
+		background-color: #d3dce6;
+	}
+	
+	.main {
+		background-color: #e9eef3;
+	}
+</style>
