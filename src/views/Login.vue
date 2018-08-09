@@ -6,7 +6,11 @@
 				<el-input v-model="formData.username"></el-input>
 			</el-form-item>
 			<el-form-item label="密码">
-				<el-input type="password" v-model="formData.password"></el-input>
+				<!--<el-input type="password" v-model="formData.password"></el-input>-->
+				<!-- 组件，vue有自己的事件机制，用的是vue事件机制实现的keyup事件 -->
+				<!-- 想使用DOM中的keyup事件 
+        		native是告诉组件，我要使用原生DOM事件 -->
+				<el-input @keyup.enter.native="handleLogin" type="password" v-model="formData.password"></el-input>
 			</el-form-item>
 			<el-form-item>
 				<el-button @click="handleLogin" class="btn" type="primary">登录</el-button>
@@ -43,10 +47,10 @@
 							//跳转到后台
 							this.$router.push('/');
 						} else {
-							 this.$message.error(msg);
+							this.$message.error(msg);
 						}
 					})
-					.catch ((err) => {
+					.catch((err) => {
 						console.log(err)
 					})
 			}
