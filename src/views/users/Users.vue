@@ -95,6 +95,7 @@
             plain>
           </el-button>
           <el-button
+          	@click="handleOpenSetRoleDialog(scope.row)"
             type="success"
             icon="el-icon-check"
             size="mini"
@@ -176,6 +177,33 @@
         <el-button type="primary" @click="handleEdit">确 定</el-button>
       </div>
     </el-dialog>
+    
+    <!-- 分配角色的对话框 -->
+    <el-dialog
+      title="分配角色"
+      :visible.sync="setRoleDialogFormVisible">
+      <el-form
+        label-width="100px">
+        <el-form-item label="用户名">
+          {{ currentName }}
+        </el-form-item>
+        <el-form-item label="请选择角色">
+          <el-select v-model="currentRoleId">
+            <el-option label="请选择" :value="-1" disabled></el-option>
+            <el-option
+              v-for="item in roles"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="setRoleDialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="setRoleDialogFormVisible = false">确 定</el-button>
+      </div>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -214,7 +242,16 @@
       	]
       },
       // 控制编辑用户的对话框的显示隐藏
-      editUserDialogFormVisible: false
+      editUserDialogFormVisible: false,
+      // 控制分配角色的对话框的显示隐藏
+      setRoleDialogFormVisible: false,
+      // 分配角色需要的数据
+      currentName: '',
+      // 绑定下拉框
+      currentRoleId: -1,
+      currentUserId: -1,
+      // 角色列表
+      roles: []
     }
   },
  
@@ -383,6 +420,19 @@
         this.$message.error(msg);
       }
     },
+    // 点击按钮显示分配角色的对话框
+    async handleOpenSetRoleDialog(user) {
+      this.setRoleDialogFormVisible = true;
+      // 获取用户名和用户id
+      this.currentName = user.username;
+      this.currentUserId = user.id;
+
+      // 显示角色列表（下拉框）
+      const response = await this.$http.get('roles');
+      this.roles = response.data.data;
+
+      // 角色id怎么办？？
+    }
  }
  }
 </script>
