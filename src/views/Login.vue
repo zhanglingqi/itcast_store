@@ -20,7 +20,7 @@
 </template>
 
 <script>
-	import axios from 'axios';
+//	import axios from 'axios';
 	export default {
 		data() {
 			return {
@@ -33,7 +33,7 @@
 		methods: {
 			handleLogin() {
 				this.$http
-					.post(`http://localhost:8888/api/private/v1/login`, this.formData)
+					.post(`login`, this.formData)
 					.then((response) => {
 						var status = response.data.meta.status;
 						var msg = response.data.meta.msg;
@@ -45,7 +45,7 @@
 							var token = response.data.data.token;
 							sessionStorage.setItem('token', token);
 							//跳转到后台
-							this.$router.push('/');
+							this.$router.push('/users');
 //							this.$router.push({name:'Home'});
 						} else {
 							this.$message.error(msg);
