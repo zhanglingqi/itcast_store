@@ -152,6 +152,7 @@
     
      <!-- 编辑用户的对话框 -->
     <el-dialog
+    	 @close="handleEditDialogClose"
       title="修改用户"
       :visible.sync="editUserDialogFormVisible">
       <el-form
@@ -276,6 +277,9 @@
         } else {
           this.$message.warning('表单验证失败');
         }
+        for (var key in this.form) {
+          this.form[key] = '';
+        }
       });
  	},
  		 // 点击编辑窗口的确定按钮，修改数据
@@ -321,7 +325,16 @@
       this.form.email = user.email;
          // 存储用户的id
       this.form.id = user.id;
- 	}
+ 	},
+ 	 // 关闭编辑对话框的时候执行
+    handleEditDialogClose() {
+      console.log('123');
+      // this.editUserDialogFormVisible = false;
+      // 清空表单数据
+      for (var key in this.form) {
+        this.form[key] = '';
+      }
+     }
  }
  }
 </script>
