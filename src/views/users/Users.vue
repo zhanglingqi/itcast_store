@@ -87,6 +87,7 @@
             plain>
           </el-button>
           <el-button
+          	@click="handleDelete(scope.row.id)"
             type="danger"
             icon="el-icon-delete"
             size="mini"
@@ -334,7 +335,42 @@
       for (var key in this.form) {
         this.form[key] = '';
       }
-     }
+    },
+    //点击删除按钮
+    async handleDelete(id) {
+    	// 删除提示
+      this.$confirm('是否删除该用户?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        // 点击确定按钮执行
+        const response = await this.$http.delete(`users/${id}`);
+
+        // 判断删除是否成功
+        const { meta: { status, msg } } = response.data;
+        if (status === 200) {
+          // 判断当前页是否只有一条数据，并且当前不是第一页
+          if (this.data.length === 1 && this.pagenum !== 1) {
+            // 如果当前页只有一条数据，删除之后，要让pagenum--
+            this.pagenum--;
+            // 重新加载数据
+            this.loadData();
+          }
+          this.loadData();
+          // 提示
+          this.$message.success(msg);
+        } else {
+          this.$message.error(msg);
+        }
+      }).catch(() => {
+        // 点击取消按钮执行
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    }
  }
  }
 </script>
