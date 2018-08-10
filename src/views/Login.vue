@@ -32,7 +32,7 @@
 		},
 		methods: {
 			handleLogin() {
-				axios
+				this.$http
 					.post(`http://localhost:8888/api/private/v1/login`, this.formData)
 					.then((response) => {
 						var status = response.data.meta.status;
