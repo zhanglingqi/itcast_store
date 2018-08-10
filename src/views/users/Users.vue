@@ -90,6 +90,26 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- 分页 -->
+    <!--
+      current-page 当前页码
+      page-size 每页显示多少条数据
+      pager-count 最多产生的数字按钮个数,大于等于 5 且小于等于 21 的奇数
+      total   总共多少条数据，发送请求获取
+
+      @size-change  每页显示多少条改变的时候
+      @current-change 当前页码改变的时候
+    -->
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="pagenum"
+      :page-size="pagesize"
+      :page-sizes="[2, 4, 6, 8]"
+      :pager-count="9"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="count">
+    </el-pagination>
   </el-card>
 </template>
 
@@ -98,7 +118,14 @@
 	export default {
   data() {
     return {
-      data: []
+      data: [],
+      // 分页相关数据
+      // 页码
+      pagenum: 1,
+      // 每页显示多少条数据
+      pagesize: 2,
+      // 总共多少条数据
+      count: 0
     }
   },
  
@@ -112,14 +139,28 @@
 		this.$http.defaults.headers.common['Authorization'] = token;
  		
 // 		var response = await axios.get('http://localhost:8888/api/private/v1/users?pagenum=1&pagesize=10');
-		var response = await this.$http.get('users?pagenum=1&pagesize=10');
+//		var response = await this.$http.get('users?pagenum=1&pagesize=10');
+		var response = await this.$http.get(`users?pagenum=${this.pagenum}&pagesize=${this.pagesize}`);
+		
  		
- 		 var { meta: { status, msg } } = response.data;
+ 		var { meta: { status, msg } } = response.data;
       if (status === 200) {
+      	//获取条数
+      	this.count = response.data.data.total;
         this.data = response.data.data.users;
+//      console.log(this.data)
+//      console.log(response.data)
       } else {
         this.$message.error(msg);
       }
+ 	},
+ 	handleSizeChange (val) {
+ 		this.pagesize = val;
+ 		this.loadData()
+ 	},
+ 	handleCurrentChange (val) {
+ 		this.pagenum = val;
+ 		this.loadData()
  	}
  }
  }
