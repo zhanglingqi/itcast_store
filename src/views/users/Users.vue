@@ -267,13 +267,39 @@
  			 //重新加载数据
  			  this.loadData();
  			  //还原表达式
- 			   this.$refs.addForm.resetFields();
+   			   this.$refs.addForm.resetFields();
+//				for(var key in this.form) {
+//					return this.form = ''
+//				}
  		} else {
  			// 添加失败
         	this.$message.error(msg);
  		}
  	},
  	handleEdit () {
+ 		  // 表单验证
+      this.$refs.addForm.validate(async (valid) => {
+        // valid 是否验证成功
+        if (valid) {
+          const response = await this.$http.post('users', this.form);
+          // 判断添加是否成功
+          const { data: { meta: { status, msg } } } = response;
+          if (status === 201) {
+            // 添加成功
+            // 提示
+            this.$message.success(msg);
+            // 关闭对话框
+            this.addUserDialogFormVisible = false;
+            // 重新加载数据
+            this.loadData();
+          } else {
+            // 添加失败
+            this.$message.error(msg);
+          }
+        } else {
+          this.$message.warning('表单验证失败');
+        }
+      });
  		
  	},
  	//点击编辑按钮
