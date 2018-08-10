@@ -254,30 +254,7 @@
  	},
  	//添加用户
  	async handleAdd () {
- 		const response = await this.$http.post('users',this.form);
- 		
- 		//判断是否成功
- 		const {data: {meta:{status,msg}}} = response;
- 		
- 		if (status === 201) { 
- 			//添加成功
- 			//提示
- 			 this.$message.success(msg);
- 			  this.addUserDialogFormVisible = false;
- 			 //重新加载数据
- 			  this.loadData();
- 			  //还原表达式
-   			   this.$refs.addForm.resetFields();
-//				for(var key in this.form) {
-//					return this.form = ''
-//				}
- 		} else {
- 			// 添加失败
-        	this.$message.error(msg);
- 		}
- 	},
- 	handleEdit () {
- 		  // 表单验证
+ 		 // 表单验证
       this.$refs.addForm.validate(async (valid) => {
         // valid 是否验证成功
         if (valid) {
@@ -300,6 +277,38 @@
           this.$message.warning('表单验证失败');
         }
       });
+ 	},
+ 		 // 点击编辑窗口的确定按钮，修改数据
+    async handleEdit() {
+      const response = await this.$http.put(`users/${this.form.id}`, {
+        email: this.form.email,
+        mobile: this.form.mobile
+      });
+
+      // 判断是否成功
+      // response -> { data: { data: {} , meta: { status: 200, msg: '' } } }
+      const { meta: { status, msg } } = response.data;
+      if (status === 200) {
+        // 修改成功
+        // 提示
+        this.$message.success(msg);
+        // 关闭窗口
+        this.editUserDialogFormVisible = false;
+        // 重置表单
+        // this.$refs.editForm.resetFields();
+        // 重新加载数据
+        this.loadData();
+        // 清空表单
+        // this.form = {};
+        
+        for (var key in this.form) {
+          this.form[key] = '';
+        }
+
+      } else {
+        // 修改失败
+        this.$message.error(msg);
+      }
  		
  	},
  	//点击编辑按钮
@@ -310,6 +319,8 @@
       this.form.username = user.username;
       this.form.mobile = user.mobile;
       this.form.email = user.email;
+         // 存储用户的id
+      this.form.id = user.id;
  	}
  }
  }
