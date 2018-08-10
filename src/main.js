@@ -4,14 +4,16 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import moment from 'moment';
+import myaxios from '@/plugins/MyAxios';
 
 //elment 导入
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/css/index.css';
-import axios from 'axios';
+//import axios from 'axios';
 
 Vue.use(ElementUI);
+Vue.use(myaxios);
 //Vue.config.productionTip = false
 // 全局过滤器，格式化日期
 Vue.filter('fmtDate', (value, fmtString) => {
@@ -19,8 +21,8 @@ Vue.filter('fmtDate', (value, fmtString) => {
 });
 
 //配置全局的axios
-Vue.prototype.$http = axios;
-axios.defaults.baseURL = 'http://localhost:8888/api/private/v1/';
+//Vue.prototype.$http = axios;
+//axios.defaults.baseURL = 'http://localhost:8888/api/private/v1/';
 
 /* eslint-disable no-new */
 new Vue({
