@@ -55,9 +55,9 @@
   },
   methods: {
     async loadData() {
-    	var token = sessionStorage.getItem('token');
-// 		axios.defaults.headers.common['Authorization'] = token;
-		this.$http.defaults.headers.common['Authorization'] = token;
+//  	var token = sessionStorage.getItem('token');
+//// 		axios.defaults.headers.common['Authorization'] = token;
+//		this.$http.defaults.headers.common['Authorization'] = token;
       const response = await this.$http.get('rights/list');
 		
       const { meta: { status, msg } } = response.data;

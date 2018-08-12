@@ -260,9 +260,9 @@
   },
  methods:{
  	async loadData() {
- 		var token = sessionStorage.getItem('token');
-// 		axios.defaults.headers.common['Authorization'] = token;
-		this.$http.defaults.headers.common['Authorization'] = token;
+// 		var token = sessionStorage.getItem('token');
+//// 		axios.defaults.headers.common['Authorization'] = token;
+//		this.$http.defaults.headers.common['Authorization'] = token;
  		
 // 		var response = await axios.get('http://localhost:8888/api/private/v1/users?pagenum=1&pagesize=10');
 //		var response = await this.$http.get('users?pagenum=1&pagesize=10');

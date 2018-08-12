@@ -5,12 +5,17 @@ import App from './App'
 import router from './router'
 import moment from 'moment';
 import myaxios from '@/plugins/MyAxios';
+// 导入面包屑组件
+import MyBreadcrumb from '@/components/MyBreadcrumb';
 
 //elment 导入
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/css/index.css';
 //import axios from 'axios';
+
+// 注册面包屑 全局组件
+Vue.component(MyBreadcrumb.name, MyBreadcrumb);
 
 Vue.use(ElementUI);
 Vue.use(myaxios);
