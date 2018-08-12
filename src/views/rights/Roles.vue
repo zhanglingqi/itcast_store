@@ -55,6 +55,9 @@
                   </el-tag>
                 </el-col>
               </el-row>
+               <el-row v-if="scope.row.children.length === 0">
+            <el-col :span="24">没有权限</el-col>
+          </el-row>
             </el-col>
           </el-row>
         </template>
