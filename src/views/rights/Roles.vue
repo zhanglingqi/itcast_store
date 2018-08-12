@@ -97,7 +97,7 @@
             plain>
           </el-button>
           <el-button
-          	 @click="handleOpenSetRightsDialog"
+          	 @click="handleOpenSetRightsDialog(scope.row)"
             type="success"
             icon="el-icon-check"
             size="mini"
@@ -115,6 +115,8 @@
       <el-tree
         :data="treeData"
         :props="defaultProps"
+         node-key="id"
+        :default-checked-keys="checkedList"
         default-expand-all
         show-checkbox>
       </el-tree>
@@ -187,11 +189,24 @@
       }
     },
      // 点击分配权限的按钮，打开分配权限的对话框 
-    async handleOpenSetRightsDialog() {
+    async handleOpenSetRightsDialog(role) {
+      // 清空数组
+      this.checkedList = [];
+
+      // role当前角色对象
       this.setRightsDialogVisible = true;
       // 发送请求
       const response = await this.$http.get('rights/tree');
       this.treeData = response.data.data;
+
+      // 把当前角色所拥有的权限id，存储到checkedList
+      role.children.forEach((level1) => {
+        level1.children.forEach((level2) => {
+          level2.children.forEach((level3) => {
+            this.checkedList.push(level3.id);
+          });
+        })
+      });
      }
   }
 };
