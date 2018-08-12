@@ -26,6 +26,7 @@
             <el-col :span="4">
               <!-- 显示一级权限的名称 -->
               <el-tag
+              	 @close="handleClose(scope.row.id, level1.id)"
                 closable>
                 {{ level1.authName }}
               </el-tag>
@@ -38,6 +39,7 @@
                 <el-col :span="4">
                   <!-- 显示二级权限的名称 -->
                   <el-tag
+                  	 @close="handleClose(scope.row.id, level2.id)"
                     type="success"
                     closable>
                     {{ level2.authName }}
@@ -46,6 +48,7 @@
                 <el-col :span="20">
                   <!-- 三级权限 -->
                   <el-tag
+                  	 @close="handleClose(scope.row.id, level3.id)"
                     class="level3"
                     v-for="level3 in level2.children"
                     :key="level3.id"
@@ -107,47 +110,64 @@
 
 <script>
 	export default {
-		data() {
-    return {
-      data: [],
-      loading: true,
-      // 控制分配权限的对话框的显示隐藏
-      setRightsDialogVisible: false,
-      // 绑定tree的数据
-      treeData: [],
-      defaultProps: {
-        // 设置树节点上显示的属性
-        label: 'authName',
-        // 设置树的子节点的属性
-        children: 'children'
-      },
-      // 树默认选中的节点的key
-      checkedList: [],
-      // 点击分配权限按钮的时候，记录当前要分配的角色id
-      currentRoleId: -1
-    };
-  },
-  created() {
-  	// 组件创建完毕，发送请求，获取数据
-    this.loadData();
-  },
-  methods: {
-  	//加载角色列表
-  	async loadData() {
-  		 const response = await this.$http.get('roles');
+		data () {
+			return {
+				data: [],
+     			 loading: true,
+			      // 控制分配权限的对话框的显示隐藏
+			      setRightsDialogVisible: false,
+			      // 绑定tree的数据
+			      treeData: [],
+			      defaultProps: {
+			        // 设置树节点上显示的属性
+			      label: 'authName',
+			        // 设置树的子节点的属性
+			       children: 'children'
+			      },
+			      // 树默认选中的节点的key
+			      checkedList: [],
+			      // 点击分配权限按钮的时候，记录当前要分配的角色id
+			      currentRoleId: -1
+			}
+		},
+		created() {
+		    // 组件创建完毕，发送请求，获取数据
+		    this.loadData();
+  		},
+  		 methods: {
+		    // 加载角色列表
+		    async loadData() {
+		      const response = await this.$http.get('roles');
+		      // 等请求结束，关闭loading
+		      this.loading = false;
+		
+		      const { meta: { status, msg } } = response.data;
+		      if (status === 200) {
+		        this.data = response.data.data;
+		      } else {
+		        this.$message.error(msg);
+		      }
+    	},
+        // 点击 tag的删除按钮，删除当前角色对应的权限
+    async handleClose(roleId, rightId) {
+      // roleId 角色id
+      // rightId 权限id
+      const response = await this.$http.delete(`roles/${roleId}/rights/${rightId}`);
 
-      // 等请求结束，关闭loading
-      this.loading = false;
-
+      console.log(response);
+      console.log(response.data);
+      // 判断是否成功
       const { meta: { status, msg } } = response.data;
       if (status === 200) {
-        this.data = response.data.data;
+        this.$message.success(msg);
+        // 重新加载数据
+        this.loadData();
       } else {
         this.$message.error(msg);
       }
-  	}
+    }
   }
-	};
+};
 </script>
 
 <style>
