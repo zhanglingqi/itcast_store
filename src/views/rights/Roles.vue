@@ -97,7 +97,7 @@
             plain>
           </el-button>
           <el-button
-          	 @click="setRightsDialogVisible = true"
+          	 @click="handleOpenSetRightsDialog"
             type="success"
             icon="el-icon-check"
             size="mini"
@@ -111,7 +111,13 @@
     <el-dialog
       title="分配权限"
       :visible.sync="setRightsDialogVisible">
-      <span>这是一段信息</span>
+      <!--<span>这是一段信息</span>-->
+      <el-tree
+        :data="treeData"
+        :props="defaultProps"
+        default-expand-all
+        show-checkbox>
+      </el-tree>
       <span slot="footer" class="dialog-footer">
         <el-button @click="setRightsDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="setRightsDialogVisible = false">确 定</el-button>
@@ -179,7 +185,14 @@
       } else {
         this.$message.error(msg);
       }
-    }
+    },
+     // 点击分配权限的按钮，打开分配权限的对话框 
+    async handleOpenSetRightsDialog() {
+      this.setRightsDialogVisible = true;
+      // 发送请求
+      const response = await this.$http.get('rights/tree');
+      this.treeData = response.data.data;
+     }
   }
 };
 </script>
