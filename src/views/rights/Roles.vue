@@ -30,7 +30,32 @@
                 {{ level1.authName }}
               </el-tag>
             </el-col>
-            <el-col :span="20"></el-col>
+            <el-col :span="20">
+              <!-- 二级权限 -->
+              <el-row
+                v-for="level2 in level1.children"
+                :key="level2.id">
+                <el-col :span="4">
+                  <!-- 显示二级权限的名称 -->
+                  <el-tag
+                    type="success"
+                    closable>
+                    {{ level2.authName }}
+                  </el-tag>
+                </el-col>
+                <el-col :span="20">
+                  <!-- 三级权限 -->
+                  <el-tag
+                    class="level3"
+                    v-for="level3 in level2.children"
+                    :key="level3.id"
+                    closable
+                    type="warning">
+                    {{ level3.authName }}
+                  </el-tag>
+                </el-col>
+              </el-row>
+            </el-col>
           </el-row>
         </template>
       </el-table-column>
