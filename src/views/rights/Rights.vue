@@ -8,6 +8,7 @@
     </el-breadcrumb>
     <!-- 表格 -->
     <el-table
+    	 v-loading="loading"
       :data="data"
       border
       stripe
@@ -59,7 +60,8 @@
 //// 		axios.defaults.headers.common['Authorization'] = token;
 //		this.$http.defaults.headers.common['Authorization'] = token;
       const response = await this.$http.get('rights/list');
-		
+				// 请求结束
+      this.loading = false;
       const { meta: { status, msg } } = response.data;
       if (status === 200) {
         this.data = response.data.data;
