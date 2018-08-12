@@ -28,7 +28,8 @@
 
           开启路由模式， menu-item的index作为路由地址
          -->
-				<el-menu unique-opened router style="height: 100%" default-active="/users">
+				<el-menu unique-opened router 
+					style="height: 100%" >
 					<el-submenu index="1">
 						<template slot="title">
 							<i class="el-icon-location"></i>
