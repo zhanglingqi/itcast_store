@@ -7,6 +7,8 @@ import Users from '@/views/users/Users';
 import Rights from '@/views/rights/Rights';
 import Roles from '@/views/rights/Roles';
 
+// 导入message
+import { Message } from 'element-ui';
 Vue.use(Router)
 
 const router = new Router({
@@ -43,8 +45,9 @@ router.beforeEach((to, from, next) => {
       // 没有token,跳转到登录页面
       // this.$router.push('/login')
       router.push('/login');
-      // 提示
+       // 提示
       // this.$message.warning('请先登录');
+      Message.warning('请先登录');
       Message.warning('请先登录');
       return;
     }
