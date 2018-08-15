@@ -25,20 +25,62 @@
 	    </el-steps>
 	    
 	    <!-- 选项卡 -->
-	    <el-tabs
-	      @tab-click="handleTabClick"
-	      tab-position="left"
-	      style="height: 200px; margin-top: 20px">
-	      <el-tab-pane label="基本信息">基本信息</el-tab-pane>
-	      <el-tab-pane label="商品参数">商品参数</el-tab-pane>
-	      <el-tab-pane label="商品属性">商品属性</el-tab-pane>
-	      <el-tab-pane label="商品图片">商品图片</el-tab-pane>
-	      <el-tab-pane label="商品内容">商品内容</el-tab-pane>
-	    </el-tabs>
+	     <el-form
+      label-position="top"
+      :model="form"
+      label-width="100px">
+      <el-tabs
+        @tab-click="handleTabClick"
+        tab-position="left"
+        style="margin-top: 20px">
+        <el-tab-pane label="基本信息">
+          <!-- 基本信息 -->
+          <el-form-item label="商品名称">
+            <el-input v-model="form.goods_name"></el-input>
+          </el-form-item>
+          <el-form-item label="商品价格">
+            <el-input v-model="form.goods_price"></el-input>
+          </el-form-item>
+          <el-form-item label="商品重量">
+            <el-input v-model="form.goods_weight"></el-input>
+          </el-form-item>
+          <el-form-item label="商品数量">
+            <el-input v-model="form.goods_number"></el-input>
+          </el-form-item>
+          <el-form-item label="商品分类">
+             <!--<el-input v-model="form.name"></el-input>--> 
+          </el-form-item>
+        </el-tab-pane>
+        <el-tab-pane label="商品参数">商品参数</el-tab-pane>
+        <el-tab-pane label="商品属性">商品属性</el-tab-pane>
+        <el-tab-pane label="商品图片">商品图片</el-tab-pane>
+        <el-tab-pane label="商品内容">商品内容</el-tab-pane>
+      </el-tabs>
+    </el-form>
   	</el-card>
 </template>
 
 <script>
+	export default {
+		data() {
+			return {
+				// 绑定步骤条，显示第几步完成
+			      active: 0,
+			      // 表单数据
+			      form: {
+			        goods_name: '',
+			        // 商品分类id,  1,2,3
+			        goods_cat: '',
+			        goods_price: '',
+			        goods_number: '',
+			        goods_weight: '',
+			        pics: [],
+			        goods_introduce: '',
+			        attrs: []
+			      }
+			}
+		}
+	}
 </script>
 
 <style>
