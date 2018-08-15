@@ -19,7 +19,7 @@
 	        <el-button @click="$router.push('/goods/add')" type="success" plain>添加商品</el-button>
 	      </el-col>
 	    </el-row>
-	    
+	    <!--rows 行   column列--> 
 	     <!-- 表格 -->
 	    <el-table
 	    	height="600px"
