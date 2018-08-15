@@ -281,6 +281,7 @@ export default {
     // 点击编辑按钮的时候，弹出编辑对话框
     // 存储 分类的id，分类的名称
     handleOpenEditDialog(cat) {
+    	
       // cat 是当前行对应的分类对象
       this.form.cat_name = cat.cat_name;
       this.currentCatId = cat.cat_id;
@@ -290,6 +291,7 @@ export default {
 
       // 存储分类对象
       this.currentCat = cat;
+      console.log(this.currentCat)
     },
     // 编辑对话框中的确定按钮
     async handleEdit() {
