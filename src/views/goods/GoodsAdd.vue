@@ -48,7 +48,15 @@
             <el-input v-model="form.goods_number"></el-input>
           </el-form-item>
           <el-form-item label="商品分类">
-             <!--<el-input v-model="form.name"></el-input>--> 
+             <!--<el-input v-model="form.name"></el-input>-->\
+              <el-cascader
+              clearable
+              expand-trigger="hover"
+              :options="options"
+              :props="{ label: 'cat_name', value: 'cat_id', children: 'children' }"
+              v-model="selectedOptions"
+              @change="handleChange">
+            </el-cascader>
           </el-form-item>
         </el-tab-pane>
         <el-tab-pane label="商品参数">商品参数</el-tab-pane>
@@ -62,6 +70,15 @@
 
 <script>
 	export default {
+		methods:{
+			//点击tab栏的tab项
+			handleTabClick(tab,event) {
+				// tab 是当前点击的组件   index=“0”
+			      // console.log(tab);
+			      // console.log(event);
+			      this.active = tab.index - 0;
+			}
+		},
 		data() {
 			return {
 				// 绑定步骤条，显示第几步完成
