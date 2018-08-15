@@ -48,8 +48,9 @@
             <el-input v-model="form.goods_number"></el-input>
           </el-form-item>
           <el-form-item label="商品分类">
-             <!--<el-input v-model="form.name"></el-input>-->\
+             <!--<el-input v-model="form.name"></el-input>-->
               <el-cascader
+              placeholder="请选择商品分类"
               clearable
               expand-trigger="hover"
               :options="options"
@@ -70,6 +71,10 @@
 
 <script>
 	export default {
+		created() {
+			//加载商品分类
+			this.loadOptions();
+		},
 		methods:{
 			//点击tab栏的tab项
 			handleTabClick(tab,event) {
@@ -77,7 +82,21 @@
 			      // console.log(tab);
 			      // console.log(event);
 			      this.active = tab.index - 0;
-			}
+			},
+			handleChange () {
+					 // 让多级下拉，只能选择3级分类
+				      if (this.selectedOptions.length !== 3) {
+				        this.$message.warning('请选择3级分类')
+				        // 清空多级下拉中的内容
+				        this.selectedOptions.length = 0;
+				      }
+				},
+			// 加载多级下拉的数据
+		    async loadOptions() {
+		    const response = await this.$http.get('categories?type=3');
+		    this.options = response.data.data;
+    		},
+    		
 		},
 		data() {
 			return {
@@ -94,7 +113,11 @@
 			        pics: [],
 			        goods_introduce: '',
 			        attrs: []
-			      }
+			      },
+			      // 多级选择器绑定的数据
+      				options: [],
+      				selectedOptions: []
+			      
 			}
 		}
 	}
