@@ -21,6 +21,7 @@
 	    
 	     <!-- 表格 -->
 	    <el-table
+	    	height="600px"
 	    	border
       		stripe
 	      :data="data"
@@ -70,6 +71,17 @@
 	        </template>
 	      </el-table-column>
 	    </el-table>
+	    
+	     <!-- 分页 -->
+	    <el-pagination
+	      @size-change="handleSizeChange"
+	      @current-change="handleCurrentChange"
+	      :current-page="pagenum"
+	      :page-sizes="[6, 20, 30, 40]"
+	      :page-size="pagesize"
+	      layout="total, sizes, prev, pager, next, jumper"
+	      :total="total">
+	    </el-pagination>
 	</el-card>
 </template>
 
@@ -77,7 +89,10 @@
 	export default {
 		data () {
 			return {
-				data:[]
+				data:[],
+				pagenum: 1,
+			    pagesize: 6,
+			    total: 0
 			}
 		},
 		created() {
@@ -85,17 +100,27 @@
 		},
 		methods:{
 			async loadData () {
-				 const response = await this.$http.get('goods?pagenum=1&pagesize=10');
+				 const response = await this.$http.get(`goods?pagenum=${this.pagenum}&pagesize=${this.pagesize}`);
 			      // 获取数据是否成功
 			      const { meta: { status, msg } } = response.data;
 			      if (status === 200) {
 			        this.data = response.data.data.goods;
+			        //获取总共多少页数据
+			        this.total = response.data.data.total;
 			      } else {
 			        this.$message.error(msg);
 			      }
-			}
-		},
-		
+			},
+			//分页方法
+			handleSizeChange(val) {
+				this.pagesize = val;
+				this.loadData();
+			},
+			handleCurrentChange (val) {
+				this.pagenum = val;
+	      		this.loadData();
+			},
+		}
 	}
 </script>
 
