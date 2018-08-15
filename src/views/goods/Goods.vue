@@ -21,6 +21,8 @@
 	    
 	     <!-- 表格 -->
 	    <el-table
+	    	border
+      		stripe
 	      :data="data"
 	      style="width: 100%">
 	      <el-table-column
@@ -28,22 +30,27 @@
 	        width="50">
 	      </el-table-column>
 	      <el-table-column
-	        prop=""
+	        prop="goods_name"
 	        label="商品名称"
 	        width="300">
 	      </el-table-column>
 	      <el-table-column
-	        prop=""
+	        prop="goods_price"
 	        label="商品价格(元)"
 	        width="180">
 	      </el-table-column>
 	      <el-table-column
-	        prop=""
-	        label="商品重量">
+	        prop="goods_weight"
+	        label="商品重量"
+	        width="100">
 	      </el-table-column>
 	      <el-table-column
-	        prop=""
-	        label="创建时间">
+	        prop="add_time"
+	        label="创建时间"
+	        width="150">
+	        <template slot-scope="scope">
+          		{{ scope.row.add_time | fmtDate('YYYY-MM-DD') }}
+        	</template>
 	      </el-table-column>
 	      <el-table-column
 	        label="操作">
@@ -72,7 +79,23 @@
 			return {
 				data:[]
 			}
-		}
+		},
+		created() {
+			this.loadData();
+		},
+		methods:{
+			async loadData () {
+				 const response = await this.$http.get('goods?pagenum=1&pagesize=10');
+			      // 获取数据是否成功
+			      const { meta: { status, msg } } = response.data;
+			      if (status === 200) {
+			        this.data = response.data.data.goods;
+			      } else {
+			        this.$message.error(msg);
+			      }
+			}
+		},
+		
 	}
 </script>
 
